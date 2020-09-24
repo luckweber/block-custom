@@ -1,0 +1,10 @@
+{
+    "admin.app.example": {
+        "component": "ListSellers",
+        "path": "/admin/app/sellers-support"
+    },
+    "admin.app.otherexample": {
+        "component": "Setting",
+        "path": "/admin/app/sellers-support-config"
+    }
+}

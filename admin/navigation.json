@@ -1,0 +1,14 @@
+{
+    "section": "orders",
+    "titleId": "admin-example.navigation.label",
+    "subSectionItems": [
+        {
+            "labelId": "admin-example.navigation.sellers",
+            "path": "/admin/sellers-support"
+        },
+        {
+            "labelId": "admin-example.navigation.management",
+            "path": "/admin/sellers-support-config"
+        }
+    ]
+}

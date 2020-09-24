@@ -1,0 +1,8 @@
+type Query {
+  getVBase(bucket:String!, path:String!):String @cacheControl(scope: PRIVATE)
+}
+
+type Mutation {
+  saveVBase(bucket:String!, path:String!, data:String!):String
+  deleteVBase(bucket:String!, path:String!):String
+}
