@@ -1,0 +1,3 @@
+query getVBase($bucket:String!, $path:String!) {
+  getVBase(bucket:$bucket, path:$path) 
+}

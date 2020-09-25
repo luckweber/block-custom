@@ -1,0 +1,3 @@
+mutation saveVBase($bucket:String!, $path:String!, $data:String!) {
+  saveVBase(bucket:$bucket, path:$path, data:$data) 
+}

@@ -1,57 +1,75 @@
-import React from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import {
     Table as VTable,
-    ButtonWithIcon,
-    IconDelete,
-    IconEdit
 } from 'vtex.styleguide'
-import clientsData from '../data/sellers'
+import ModalCreate from './ModalCreate';
+import ModalEdit from './ModalEdit';
+import ModalDelete from './ModalDelete';
 
-const Table = () => {
-    const { clients } = clientsData
+interface CustomProps {
+    clients: any
+    loading: boolean
+}
 
+const Table: FunctionComponent<CustomProps> = ({ clients, loading }) => {
+
+    const [show, setShow] = useState(false)
 
     return <div className="pa4 mt4">
         <VTable
             fullWidth
-            schema={jsonschema}
+            loading={loading}
+            schema={jsonschema(clients)}
             items={clients}
+            toolbar={{
+                newLine: {
+                    label: 'Novo Cliente',
+                    handleCallback: () => setShow(true)
+                }
+            }}
+        />
+        <ModalCreate
+            show={show}
+            setShow={setShow}
+            data={clients}
         />
     </div>
 
 }
 
 
-const jsonschema = {
+const jsonschema = (clients: any) => ({
     properties: {
         name: {
             title: 'Nome',
         },
-        cellphone: {
+        cellPhone: {
             title: 'Telefone',
             width: 300,
         },
         action: {
             title: 'Ação',
             minWidth: 100,
-            cellRenderer: () => {
+            cellRenderer: (prop: any) => {
                 return (
                     <div className="flex justify-center">
                         <div className="mr2">
-                            <ButtonWithIcon icon={<IconEdit />} variation="Primary">
-                                Editar
-                            </ButtonWithIcon>
+                            <ModalEdit
+                                seller={prop}
+                                sellers={clients}
+                            />
                         </div>
                         <div className="mr2">
-                            <ButtonWithIcon icon={<IconDelete />} variation="danger">
-                                Deletar
-                            </ButtonWithIcon>
+                            <ModalDelete
+                                seller={prop}
+                                sellers={clients}
+                            />
                         </div>
                     </div>
                 )
             },
         }
     }
-}
+})
 
 export default Table

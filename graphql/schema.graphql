@@ -1,5 +1,5 @@
 type Query {
-  getVBase(bucket:String!, path:String!):String @cacheControl(scope: PRIVATE)
+  getVBase(bucket:String!, path:String!):String 
 }
 
 type Mutation {
