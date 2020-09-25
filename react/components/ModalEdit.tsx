@@ -3,17 +3,19 @@ import {
     ModalDialog,
     Input,
     IconEdit,
-    ButtonWithIcon
+    ButtonWithIcon,
+    Alert
 } from 'vtex.styleguide'
 import saveGACodeMutation from './../graphql/mutations/saveVBase.gql'
 import { useApolloClient } from 'react-apollo'
+import { STORE_SELLERS, useDataContext } from '../utils/DataContext'
 
 interface CustomProps {
     seller: any
     sellers: any
 }
 
-const ModalEdit: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
+const ModalEdit: FunctionComponent<CustomProps> = ({ seller }) => {
 
     const [show, setShow] = useState(false)
     const [cellPhone, setCellPhone] = useState('')
@@ -21,7 +23,8 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
     const [name, setName] = useState('')
     const client = useApolloClient();
     const variables = { bucket: 'sellers', path: 'sellers.json' }
-
+    const [error, setError] = useState({ status: false, message: '' })
+    const { setSellers, sellers } = useDataContext()
 
     useEffect(() => {
         const { rowData } = seller
@@ -40,15 +43,11 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
 
             if (!newSeller) return
 
-            console.log(newSeller);
-
             sellers[objIndex] = {
                 ...newSeller,
                 cellPhone,
                 name
             }
-
-
 
             try {
                 client.mutate({
@@ -58,15 +57,19 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
                         data: JSON.stringify(sellers),
                     },
                 }).then(() => {
+                    setSellers(sellers)
+                    STORE_SELLERS.setItem(sellers)
                     setShow(false)
-                    console.log(client);
-
                 })
 
             } catch (error) {
                 console.log(error);
 
             }
+        } else if (name.length < 3) {
+            setError({ message: "Nome permitidos com mais de 2 caracteres", status: true })
+        } else if (cellPhone.length < 8) {
+            setError({ message: "Telefone invalido", status: true })
         }
     }
 
@@ -97,6 +100,13 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
                 onClose={() => setShow(false)}>
                 <div className="flex flex-column flex-row-ns">
                     <div className="w-100 mv4 pv6-ns pl6-ns">
+                        {
+                            (error.status) && (
+                                <Alert type="error" onClose={() => console.log('Closed!')}>
+                                    {error.message}
+                                </Alert>
+                            )
+                        }
                         <h2 className="w-100 mv6 ttu">Editar Vendedor</h2>
                         <div className="w-100 mv6">
                             <Input

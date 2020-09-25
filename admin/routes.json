@@ -1,10 +1,14 @@
 {
     "admin.app.example": {
+        "around": [
+            "wrapper"
+        ]
+    },
+    "admin.app.example.pages": {
         "component": "ListSellers",
         "path": "/admin/app/sellers-support"
     },
-    "admin.app.otherexample": {
-        "component": "Setting",
-        "path": "/admin/app/sellers-support-config"
+    "wrapper": {
+        "component": "Wrapper"
     }
 }

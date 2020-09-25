@@ -6,13 +6,14 @@ import {
 } from 'vtex.styleguide'
 import saveGACodeMutation from './../graphql/mutations/saveVBase.gql'
 import { useApolloClient } from 'react-apollo'
+import { STORE_SELLERS, useDataContext } from '../utils/DataContext'
 
 interface CustomProps {
     seller: any
     sellers: any
 }
 
-const ModalDelete: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
+const ModalDelete: FunctionComponent<CustomProps> = ({ seller }) => {
 
     const [show, setShow] = useState(false)
     const [cellPhone, setCellPhone] = useState('')
@@ -20,6 +21,8 @@ const ModalDelete: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
     const [name, setName] = useState('')
     const client = useApolloClient();
     const variables = { bucket: 'sellers', path: 'sellers.json' }
+
+    const { setSellers, sellers } = useDataContext()
 
 
     useEffect(() => {
@@ -46,9 +49,9 @@ const ModalDelete: FunctionComponent<CustomProps> = ({ seller, sellers }) => {
                         data: JSON.stringify(newSeller),
                     },
                 }).then(() => {
+                    setSellers(newSeller)
+                    STORE_SELLERS.setItem(newSeller)
                     setShow(false)
-                    console.log(client);
-
                 })
 
             } catch (error) {

@@ -1,26 +1,29 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Table as VTable,
 } from 'vtex.styleguide'
 import ModalCreate from './ModalCreate';
 import ModalEdit from './ModalEdit';
 import ModalDelete from './ModalDelete';
+import { useDataContext } from '../utils/DataContext';
 
-interface CustomProps {
-    clients: any
-    loading: boolean
-}
-
-const Table: FunctionComponent<CustomProps> = ({ clients, loading }) => {
+const Table = () => {
 
     const [show, setShow] = useState(false)
+    const [values, setValues] = useState([])
+
+    const { sellers } = useDataContext()
+
+    useEffect(() => {
+        setValues(sellers)
+    }, [sellers])
+
 
     return <div className="pa4 mt4">
         <VTable
             fullWidth
-            loading={loading}
-            schema={jsonschema(clients)}
-            items={clients}
+            schema={jsonschema(values)}
+            items={values}
             toolbar={{
                 newLine: {
                     label: 'Novo Cliente',
@@ -31,14 +34,14 @@ const Table: FunctionComponent<CustomProps> = ({ clients, loading }) => {
         <ModalCreate
             show={show}
             setShow={setShow}
-            data={clients}
+            data={values}
         />
     </div>
 
 }
 
 
-const jsonschema = (clients: any) => ({
+const jsonschema = (values: any) => ({
     properties: {
         name: {
             title: 'Nome',
@@ -56,13 +59,13 @@ const jsonschema = (clients: any) => ({
                         <div className="mr2">
                             <ModalEdit
                                 seller={prop}
-                                sellers={clients}
+                                sellers={values}
                             />
                         </div>
                         <div className="mr2">
                             <ModalDelete
                                 seller={prop}
-                                sellers={clients}
+                                sellers={values}
                             />
                         </div>
                     </div>
