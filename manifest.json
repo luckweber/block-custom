@@ -10,7 +10,8 @@
     "docs": "0.x",
     "admin": "0.x",
     "node": "6.x",
-    "graphql": "1.x"
+    "graphql": "1.x",
+    "store": "0.x"
   },
   "dependencies": {
     "vtex.styleguide": "9.x"

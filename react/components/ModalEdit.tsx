@@ -21,6 +21,8 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller }) => {
     const [cellPhone, setCellPhone] = useState('')
     const [id, setID] = useState('')
     const [name, setName] = useState('')
+    const [image, setImage] = useState('')
+
     const client = useApolloClient();
     const variables = { bucket: 'sellers', path: 'sellers.json' }
     const [error, setError] = useState({ status: false, message: '' })
@@ -31,6 +33,7 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller }) => {
         setName(rowData.name)
         setCellPhone(rowData.cellPhone)
         setID(rowData.id)
+        setImage(rowData.image)
     }, [seller])
 
 
@@ -46,7 +49,8 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller }) => {
             sellers[objIndex] = {
                 ...newSeller,
                 cellPhone,
-                name
+                name,
+                image
             }
 
             try {
@@ -124,6 +128,15 @@ const ModalEdit: FunctionComponent<CustomProps> = ({ seller }) => {
                                 value={cellPhone}
                                 onChange={(e: any) => setCellPhone(e.target.value)}
                                 name="large"
+                            />
+                        </div>
+                        <div className="w-100 mv6">
+                            <Input
+                                placeholder="Imagem"
+                                size="large"
+                                value={image}
+                                onChange={(e: any) => setImage(e.target.value)}
+                                name="Imagem"
                             />
                         </div>
                     </div>

@@ -18,6 +18,8 @@ const ModalCreate: FunctionComponent<CustomProps> = ({ show, setShow }) => {
 
     const [cellPhone, setCellPhone] = useState('')
     const [name, setName] = useState('')
+    const [image, setImage] = useState('')
+
     const client = useApolloClient();
     const [error, setError] = useState({ status: false, message: '' })
     const variables = { bucket: 'sellers', path: 'sellers.json' }
@@ -28,7 +30,7 @@ const ModalCreate: FunctionComponent<CustomProps> = ({ show, setShow }) => {
 
         if (cellPhone.length >= 8 && name.length >= 3) {
 
-            const newSeller = { cellPhone, name, id: new Date().getTime() }
+            const newSeller = { cellPhone, name, id: new Date().getTime(), image }
             sellers.push(newSeller)
 
             try {
@@ -44,6 +46,7 @@ const ModalCreate: FunctionComponent<CustomProps> = ({ show, setShow }) => {
                     setShow(false)
                     setError({ status: false, message: '' })
                     setName('')
+                    setImage('')
                     setCellPhone('')
                 })
 
@@ -99,7 +102,16 @@ const ModalCreate: FunctionComponent<CustomProps> = ({ show, setShow }) => {
                                 size="large"
                                 value={cellPhone}
                                 onChange={(e: any) => setCellPhone(e.target.value)}
-                                name="large"
+                                name="telefone"
+                            />
+                        </div>
+                        <div className="w-100 mv6">
+                            <Input
+                                placeholder="Imagem"
+                                size="large"
+                                value={image}
+                                onChange={(e: any) => setImage(e.target.value)}
+                                name="Imagem"
                             />
                         </div>
                     </div>
